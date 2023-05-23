@@ -30,13 +30,14 @@ class Post{
 
     public static function findAll(){
         return collect( File::allFiles(  resource_path( "posts/" )) )
-                    ->map( fn( $file )=> YamlFrontMatter::parseFile( $file ) )
-                    ->map( fn( $doc )=> new Post(
-                        $doc->title,
-                        $doc->excerpt,
-                        $doc->date,
-                        $doc->slug,
-                        $doc->body()
-                ));
+                ->map( fn( $file )=> YamlFrontMatter::parseFile( $file ) )
+                ->map( fn( $doc )=> new Post(
+                    $doc->title,
+                    $doc->excerpt,
+                    $doc->date,
+                    $doc->slug,
+                    $doc->body()
+                ))
+                ->sortByDesc( 'date' );
     }
 }
