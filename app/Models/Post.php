@@ -29,15 +29,21 @@ class Post{
     }
 
     public static function findAll(){
-        return collect( File::allFiles(  resource_path( "posts/" )) )
-                ->map( fn( $file )=> YamlFrontMatter::parseFile( $file ) )
-                ->map( fn( $doc )=> new Post(
-                    $doc->title,
-                    $doc->excerpt,
-                    $doc->date,
-                    $doc->slug,
-                    $doc->body()
-                ))
-                ->sortByDesc( 'date' );
+        return cache()->rememberForever( 'posts.findAll', function(){
+            return collect( File::allFiles(  resource_path( "posts/" )) )
+            ->map( fn( $file )=> YamlFrontMatter::parseFile( $file ) )
+            ->map( fn( $doc )=> new Post(
+                $doc->title,
+                $doc->excerpt,
+                $doc->date,
+                $doc->slug,
+                $doc->body()
+            ))
+            ->sortByDesc( 'date' );
+        });
     }
 }
+
+
+// cache('post.findAll') - to view cache
+// cache()->forget('posts.all') - to delete cache
