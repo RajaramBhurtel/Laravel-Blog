@@ -24,10 +24,10 @@ Route::get( '/' , function () {
 
 });
 
-Route::get( 'posts/{post}' , function ( $id ) {
+Route::get( 'posts/{post}' , function ( Post $post ) {
     //find a post by its slug and pass it to the view called "post"
 
-    return view( 'post', [ 'post' => Post::findOrFail( $id ) ] );
+    return view( 'post', [ 'post' => $post ] );
  
 });
 // })->whereAlpha( 'post' ); To use helper methods such as whereAlpha, whereAlphaNumeric etc;
