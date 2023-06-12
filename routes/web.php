@@ -20,14 +20,14 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get( '/' , function () {
 
-    return view( 'posts', [ 'posts' =>  Post::findAll() ] );
+    return view( 'posts', [ 'posts' =>  Post::all() ] );
 
 });
 
-Route::get( 'posts/{post}' , function ( $slug ) {
+Route::get( 'posts/{post}' , function ( $id ) {
     //find a post by its slug and pass it to the view called "post"
 
-    return view( 'post', [ 'post' => Post::findOrFail( $slug ) ] );
+    return view( 'post', [ 'post' => Post::findOrFail( $id ) ] );
  
 });
 // })->whereAlpha( 'post' ); To use helper methods such as whereAlpha, whereAlphaNumeric etc;
