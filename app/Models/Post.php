@@ -23,9 +23,18 @@ class Post{
 
     }
     public static function find( $slug ){
+        // find the first post with the slug it matches
+        return static::findAll()->firstWhere( 'slug', $slug );
+     }
+    public static function findOrFail( $slug ){
        // find the first post with the slug it matches
-       return static::findAll()->firstWhere( 'slug', $slug );
+       $post = static::find( $slug );
+
+       if  (! $post){
+        throw new ModelNotFoundException();
+       }
       
+       return $post;
     }
 
     public static function findAll(){
