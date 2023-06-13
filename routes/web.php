@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -37,5 +38,11 @@ Route::get( 'categories/{category:slug}' , function ( Category $category ) {
     //find a post by its slug and pass it to the view called "post"
 
     return view( 'posts', [ 'posts' => $category->posts ] );
+ 
+});
+Route::get( 'users/{user}' , function ( User $user ) {
+    //find a post by its slug and pass it to the view called "post"
+
+    return view( 'posts', [ 'posts' => $user->posts ] );
  
 });
