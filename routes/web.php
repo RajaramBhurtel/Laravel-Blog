@@ -23,13 +23,12 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 Route::get( '/' , function () {
 
     return view( 'posts', [ 
-        'posts' =>  Post::latest()->with(['category', 'author'])->get() 
+        'posts' =>  Post::latest()->get() 
     ]);
 
 });
 
 Route::get( 'posts/{post:slug}' , function ( Post $post ) {
-    //find a post by its slug and pass it to the view called "post"
 
     return view( 'post', [ 'post' => $post ] );
  
@@ -37,14 +36,16 @@ Route::get( 'posts/{post:slug}' , function ( Post $post ) {
 // })->whereAlpha( 'post' ); To use helper methods such as whereAlpha, whereAlphaNumeric etc;
 
 Route::get( 'categories/{category:slug}' , function ( Category $category ) {
-    //find a post by its slug and pass it to the view called "post"
 
-    return view( 'posts', [ 'posts' => $category->posts ] );
+    return view( 'posts', [ 
+        'posts' => $category->posts 
+    ]);
  
 });
-Route::get( 'authors/{author}' , function ( User $author ) {
-    //find a post by its slug and pass it to the view called "post"
+Route::get( 'authors/{author:username}' , function ( User $author ) {
 
-    return view( 'posts', [ 'posts' => $author->posts ] );
+    return view( 'posts', [ 
+        'posts' => $author->posts  
+    ]);
  
 });
