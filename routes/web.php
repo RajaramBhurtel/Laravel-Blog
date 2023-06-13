@@ -22,7 +22,9 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get( '/' , function () {
 
-    return view( 'posts', [ 'posts' =>  Post::with('category')->get() ] );
+    return view( 'posts', [ 
+        'posts' =>  Post::latest()->with(['category', 'author'])->get() 
+    ]);
 
 });
 
@@ -40,9 +42,9 @@ Route::get( 'categories/{category:slug}' , function ( Category $category ) {
     return view( 'posts', [ 'posts' => $category->posts ] );
  
 });
-Route::get( 'users/{user}' , function ( User $user ) {
+Route::get( 'authors/{author}' , function ( User $author ) {
     //find a post by its slug and pass it to the view called "post"
 
-    return view( 'posts', [ 'posts' => $user->posts ] );
+    return view( 'posts', [ 'posts' => $author->posts ] );
  
 });

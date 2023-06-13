@@ -1,4 +1,4 @@
-@include('template/header');
+@include('template/header')
 @php foreach ( $posts as $post ) :  @endphp
     <article>
         <h1>
@@ -7,8 +7,8 @@
             </a>
         </h1>
         <p>
-            <a href="/categories/<?= $post->category->slug ?>"> <?= $post->category->name ?></a>
-        </p> 
+            By <a href="/authors/<?= $post->author->id ?>"><?= $post->author->name ?></a> In<a href="/categories/<?= $post->category->slug ?>"> <?= $post->category->name ?></a>
+        </p>
         <div>
             <?= $post->excerpt ?>
         </div>
@@ -17,4 +17,4 @@
 
 @php endforeach;     @endphp
    
-@include('template/footer');
+@include('template/footer')
