@@ -1,20 +1,13 @@
 @include('template/header')
-@php foreach ( $posts as $post ) :  @endphp
-    <article>
-        <h1>
-            <a href="/posts/<?= $post->slug ?>">
-                <?= $post->title ?>
-            </a>
-        </h1>
-        <p>
-            By <a href="/authors/<?= $post->author->username ?>"><?= $post->author->name ?></a> In<a href="/categories/<?= $post->category->slug ?>"> <?= $post->category->name ?></a>
-        </p>
-        <div>
-            <?= $post->excerpt ?>
-        </div>
-        
-    </article>
-
-@php endforeach;     @endphp
    
+    @include('post-header',  $post = $posts[0])
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        @if ($posts->count())
+           @include('template.post-grid',  $posts)
+        @else
+            <p class="text-center">No Posts found. Please come back later.</p>
+        @endif
+    </main>
+    
+        
 @include('template/footer')
