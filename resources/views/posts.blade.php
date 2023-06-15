@@ -1,6 +1,6 @@
 @include('template/header')
    
-    @include('post-header',  $post = $posts[0])
+    @include('post-header')
     <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
         @if ($posts->count())
            @include('template.post-grid',  $posts)
