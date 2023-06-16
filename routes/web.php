@@ -24,17 +24,16 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 Route::get( '/' , [PostController::class, 'index'])->name('home');
 
 Route::get( 'posts/{post:slug}' , [PostController::class, 'show']);
-// })->whereAlpha( 'post' ); To use helper methods such as whereAlpha, whereAlphaNumeric etc;
 
-Route::get( 'categories/{category:slug}' , function ( Category $category ) {
+// Route::get( 'categories/{category:slug}' , function ( Category $category ) {
 
-    return view( 'posts', [ 
-        'posts' => $category->posts ,
-        'currentCat' => $category,
-        'categories' =>  Category::all()
-    ]);
+//     return view( 'posts', [ 
+//         'posts' => $category->posts ,
+//         'currentCat' => $category,
+//         'categories' =>  Category::all()
+//     ]);
  
-});
+// });
 Route::get( 'authors/{author:username}' , function ( User $author ) {
 
     return view( 'posts', [ 
