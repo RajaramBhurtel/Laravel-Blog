@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
 {
@@ -15,8 +17,9 @@ class CategoryFactory extends Factory
         $name = $this->faker->unique()->word;
 
         return [
-            'name' => $name,
-            'slug' => Str::slug($name)
+            'post_id' => Post::factory(),
+            'user_id' => User::factory(),
+            'body' => $this->faker->paragraph()
         ];
     }
 }
