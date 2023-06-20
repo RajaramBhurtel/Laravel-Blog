@@ -27,4 +27,5 @@
             </div>
         </footer>
     </section>
+   @include('template.flash')
 </body>
