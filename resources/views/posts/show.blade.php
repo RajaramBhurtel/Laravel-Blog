@@ -45,10 +45,11 @@
             </div>
         </div>
         <section class="col-span-8 col-start-5 mt-10 space-y-6">
-            @include('template.comments')
-            @include('template.comments')
-            @include('template.comments')
-            @include('template.comments')
+           @foreach ($post->comments as $comment)
+           @include('template.comments' , $comment) 
+           @endforeach
+           
+
         </section>
     </article>
 </main>
