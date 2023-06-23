@@ -8,6 +8,8 @@ use App\Http\Controllers\SessionController;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\RegistrationController;
+use App\Services\Newsletter;
+
 // use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 
@@ -22,23 +24,13 @@ Route::get( 'login' , [SessionController::class, 'create'])->middleware('guest')
 Route::post( 'login' , [SessionController::class, 'store'])->middleware('guest');
 Route::post( 'logout' , [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::post('newsletter', function(){
+Route::post('newsletter', function(Newsletter $newsletter ){
 
     request()->validate(['email' => 'required|email']);
 
     try {
         
-        $mailchimp = new \MailchimpMarketing\ApiClient();
-
-        $mailchimp->setConfig([
-            'apiKey' => config('services.mailchimp.key'),
-            'server' => 'us21'
-        ]);
-
-        $response = $mailchimp->lists->addListMember('e3bdfe4e34',[
-            'email_address' => request('email'),
-            'status'        => 'subscribed'
-        ]);
+       $newsletter->subscribe(request('email'));
 
     } catch (Exception $e) {
         throw ValidationException::withMessages([
