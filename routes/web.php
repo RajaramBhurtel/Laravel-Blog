@@ -1,14 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SessionController;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\RegistrationController;
-use App\Services\Newsletter;
+
 
 // use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -24,20 +23,4 @@ Route::get( 'login' , [SessionController::class, 'create'])->middleware('guest')
 Route::post( 'login' , [SessionController::class, 'store'])->middleware('guest');
 Route::post( 'logout' , [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::post('newsletter', function(Newsletter $newsletter ){
-
-    request()->validate(['email' => 'required|email']);
-
-    try {
-        
-       $newsletter->subscribe(request('email'));
-
-    } catch (Exception $e) {
-        throw ValidationException::withMessages([
-            'email' => 'This email could not be added to our newsletter list.'
-        ]);
-    }
-
-    return redirect('/')
-        ->with('success', 'You are now signed up for our newsletter!');
-});
+Route::post('newsletter', NewsletterController::class);
