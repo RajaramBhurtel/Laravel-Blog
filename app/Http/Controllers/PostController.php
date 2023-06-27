@@ -27,15 +27,7 @@ class PostController extends Controller
     }
 
     public function store( ) {
-        $attributes = request()->validate([
-            'title'         => 'required',
-            'thumbnail'     => 'required|image',
-            'slug'          => ['required', Rule::unique('posts', 'slug')],
-            'excerpt'       => 'required',
-            'body'          => 'required',
-            'category_id'   => ['required', Rule::exists('categories', 'id')],
-        ]);
-
+        $attributes = $this->validatePost();
         $attributes['user_id'] = auth()->id();
         $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
 
@@ -57,16 +49,9 @@ class PostController extends Controller
     }
 
     public function update(Post $post) {
-        $attributes = request()->validate([
-            'title'         => 'required',
-            'thumbnail'     => 'image',
-            'slug'          => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
-            'excerpt'       => 'required',
-            'body'          => 'required',
-            'category_id'   => ['required', Rule::exists('categories', 'id')],
-        ]);
+        $attributes = $this->validatePost($post);
 
-        if( isset($attributes['thumbnail'])){
+        if ($attributes['thumbnail'] ?? false) {
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
         }
 
@@ -74,4 +59,25 @@ class PostController extends Controller
 
         return back()->with('success', 'Post has been updated' );
     }
+
+    public function delete(Post $post){
+        $post->delete();
+
+        return back()->with('success', 'Post Deleted!');
+    }
+
+    protected function validatePost(?Post $post = null): array {
+        $post ??= new Post();
+
+        return request()->validate([
+            'title' => 'required',
+            'thumbnail' => $post->exists ? ['image'] : ['required', 'image'],
+            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'published_at' => 'required'
+        ]);
+    }
+
 }
